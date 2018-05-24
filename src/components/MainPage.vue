@@ -37,7 +37,7 @@
       @close="handleClose">
       <el-menu-item >分类</el-menu-item>
      <el-menu-item v-for="item in items" :key="item.id" :index="item.id">
-       {{item.name}}
+       {{item.main_title_type_name}}
      </el-menu-item>
     </el-menu>
     </el-aside>
