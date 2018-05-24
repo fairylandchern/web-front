@@ -81,6 +81,9 @@ export default {
     handleClose:function(event){
       alert("close"+this.name+"!")
     }
+  },
+  created(){
+    this.$store.dispatch('getAllItems')
   }
 };
 </script>

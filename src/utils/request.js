@@ -24,5 +24,8 @@ export default function request (url, options) {
   return axios(url, {...options, headers, withCredentials: true})
     .then(checkStatus)
     .then(data => ({ data }))
+    .then(function(data){
+      console.log("the response data is:"+data)
+    })
     .catch(err => ({ err }))
 }
