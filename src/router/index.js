@@ -4,7 +4,9 @@ import MainPage from '@/components/MainPage'
 import Register from '@/components/Register'
 import Login    from '@/components/Login'
 import IssuePost from '@/components/IssuePost'
+import UserInfo from '@/components/UserInfo'
 import { Main } from 'element-ui';
+import { Store } from 'vuex';
 Vue.use(Router)
 
 
@@ -31,6 +33,12 @@ Vue.use(Router)
       name:"IssuePost",
       component:IssuePost,
       beforeEnter:requireAuth
+    },
+    {
+      path:"/userinfo/:id",
+      name:"UserInfo",
+      component:UserInfo,
+      beforeEnter:requireAuth
     }
   ]
 })
@@ -39,7 +47,17 @@ Vue.use(Router)
 //   next('/login')
 // })
 function requireAuth(to,from,next) {
-  next('/login')
+  if(localStorage.getItem("uinfo")){
+    next()
+  }else{
+    next('/login')
+  }
+ 
 }
+// router.beforeResolve((to,from)=>{
+//   if(localStorage.getItem("uinfo")){
+//     Store.loginstatus=true
+//   }
+// })
 
 export default router

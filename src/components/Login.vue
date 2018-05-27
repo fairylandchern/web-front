@@ -1,28 +1,40 @@
 <template>
 <el-container width="300px">
-  <el-header> 
-    <el-menu default-active="activeIndex" mode="horizontal">
-       <el-menu-item index="1">
-        <router-link to="/">首页</router-link>
+   <el-header> 
+    <el-menu default-active="activeIndex" mode="horizontal" router=true>
+      <el-menu-item index="1" route="/">
+        首页
       </el-menu-item>
       <el-submenu index="2">
        <template slot="title">帖子管理</template>
-        <el-menu-item index="2-1">
-          <router-link to="/issue">发布帖子</router-link>
+        <el-menu-item index="2-1" route="/issue">
+          发布帖子
         </el-menu-item>
         <el-menu-item index="2-2">浏览帖子</el-menu-item>
       </el-submenu>
       <el-menu-item index="3">
-      <el-input placeholder="请输入内容" v-model="input23">
-    <i slot="prefix" class="el-input__icon el-icon-search"></i>
-  </el-input>
+      <el-input
+      placeholder="请输入内容" v-model="input23">
+       <i slot="prefix" class="el-input__icon el-icon-search"></i>
+       </el-input>
       </el-menu-item>
-      <el-menu-item index="4">
-        <router-link to="/login">登陆</router-link>
-      </el-menu-item>
-      <el-menu-item index="5">
-        <router-link to="/register">注册</router-link>
-      </el-menu-item>
+        <el-submenu index="6" v-if="loginStatus">
+          <template slot="title">用户信息</template>
+          <el-menu-item index="6-1" route="/userinfo/:id">
+            个人主页
+          </el-menu-item>
+          <el-menu-item index="6-2" @click="logout" route="/">
+            登出
+          </el-menu-item>
+        </el-submenu>
+      <template  v-else>
+        <el-menu-item index="4" route="/login" >
+        登陆
+        </el-menu-item>
+        <el-menu-item index="5" route="/register">
+        注册
+        </el-menu-item>
+      </template>
     </el-menu>
 </el-header>
 <el-container>
@@ -44,54 +56,68 @@
 </el-container>
 </template>
 <script>
-import    { mapGetters,mapActions}     from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
-      var validatePass=(rule,value,callback)=>{
-          if(value===''){
-              callback(new Error("请输入密码"))
-          }else{
-              callback();
-          }
-      };
-      var validatename=(rule,value,callback)=>{
-          if(value===''){
-              callback(new Error("请输入昵称"))
-          }else{
-              callback();
-          }
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        callback();
       }
-      return{
-          loginForm:{
-              nickname:'',
-              password:'',
-          },
-          rules:{
-               password: [
-            { validator: validatePass, trigger: 'blur',required:true }
-          ],
-         nickname:[
-              { required: true, message: '请输入姓名', trigger: 'blur' },
-              {validator:validatename,trigger:'blur'}
-         ]
-          }
-      };
-  },
-     methods: {
-      submitForm(formName) {
-        this.$refs["loginForm"].validate((valid) => {
-          if (valid) {
-           alert("login!")
-          } else {
-            alert("error in login")
-            return false;
-          }
-        });
+    };
+    var validatename = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入昵称"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      loginForm: {
+        nickname: "",
+        password: ""
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      rules: {
+        password: [
+          { validator: validatePass, trigger: "blur", required: true }
+        ],
+        nickname: [
+          { required: true, message: "请输入姓名", trigger: "blur" },
+          { validator: validatename, trigger: "blur" }
+        ]
       }
+    };
+  },
+  methods: {
+    submitForm(form) {
+      this.$refs["loginForm"].validate(valid => {
+        if (!valid) {
+          alert("error in login");
+          return false;
+        }
+      });
+      this.$store.dispatch("login", form);
+      if (this.$store.getters.getUserLoginStatus) {
+      }
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    ...mapActions({
+      logout: "logout"
+    })
+  },
+  computed: {
+    ...mapGetters({
+       loginStatus:"getUserLoginStatus"
+    })
+  },
+  created() {
+    if (localStorage.getItem("uinfo")) {
+      this.$store.commit("setUserLoginStatus", true);
     }
-}
+  }
+};
 </script>
 

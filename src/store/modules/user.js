@@ -15,6 +15,9 @@ const getters={
     },
     getUserStatus:(state)=>{
         return state.status
+    },
+    getUserLoginStatus:(state)=>{
+        return state.loginstatus
     }
 }
 
@@ -28,6 +31,10 @@ const mutations={
     },
     setUserLoginStatus:(state,status)=>{
         state.loginstatus=status
+    },
+    clearUserInfo:(state)=>{
+        localStorage.removeItem("uinfo")
+        state.loginstatus=false
     }
 }
 
@@ -35,11 +42,7 @@ const mutations={
 const actions={
     async register({commit},uinfo){
         var flag=false
-        await axios.post("http://localhost:9090/v1/user/register",{
-            phone:uinfo.phone,
-            nickname:uinfo.name,
-            password:uinfo.passwd
-        })
+        await axios.post("http://localhost:9090/v1/user/register",uinfo)
             .then(response=>{
                 const status=response.data.status
                
@@ -56,14 +59,11 @@ const actions={
     },
     async login({commit},uinfo){
         var flag=false
-        await axios.post("http://localhost:9090/v1/user/login",{
-            nickname:uinfo.name,
-            password:uinfo.passwd
-        })
+        await axios.post("http://localhost:9090/v1/user/login",uinfo)
             .then(response=>{
                 const status=response.data.status
                 const retuinfo=response.data.data
-                console.log("the response status is:",status)
+                console.log("the response status is:",status,retuinfo)
                 if (status===200){
                     flag=true
                 }
@@ -74,6 +74,9 @@ const actions={
             .catch(error=>{
                 console.log(error)
             })
+    },
+    logout({commit}){
+        commit("clearUserInfo")
     }
 }
 
