@@ -7,7 +7,9 @@ import IssuePost from '@/components/IssuePost'
 import { Main } from 'element-ui';
 Vue.use(Router)
 
-export default new Router({
+
+ const router=new Router({
+  mode:'history',
   routes: [
     {
       path: '/',
@@ -27,7 +29,17 @@ export default new Router({
     {
       path:"/issue",
       name:"IssuePost",
-      component:IssuePost
+      component:IssuePost,
+      beforeEnter:requireAuth
     }
   ]
 })
+
+// router.beforeEach((to,from,next)=>{
+//   next('/login')
+// })
+function requireAuth(to,from,next) {
+  next('/login')
+}
+
+export default router

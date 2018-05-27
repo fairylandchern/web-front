@@ -13,31 +13,39 @@
     <el-input v-model="form.phone" placeholder="请输入电话号码"></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">立即创建</el-button>
+    <el-button type="primary" @click="onSubmit(form)">立即创建</el-button>
     <el-button>取消</el-button>
   </el-form-item>
 </el-form>
 
 </template>
 <script>
+import {mapGetters,mapActions} from 'vuex'
   export default {
     data() {
       return {
         form: {
           name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          passwd:'',
+          confirmpasswd:'',
+          phone:'',
         }
       }
     },
+   computed:{
+      ...mapGetters({
+        flag:"getUserStatus"
+      })
+   },
     methods: {
-      onSubmit() {
-        console.log('submit!');
+      onSubmit(form) {
+      this.$store.dispatch("register",form)
+      var flag=this.$store.state.status
+       if(flag){
+         alert("register successs")
+       }else{
+         alert("registered failed")
+       }
       }
     }
   }

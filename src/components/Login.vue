@@ -17,6 +17,9 @@
   </el-form>
 </template>
 <script>
+import    { mapGetters,mapActions}     from 'vuex'
+
+
 export default {
   data() {
       var validatePass=(rule,value,callback)=>{
@@ -63,9 +66,9 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+           
           } else {
-            console.log('error submit!!');
+            alert("error in login")
             return false;
           }
         });
