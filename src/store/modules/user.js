@@ -2,7 +2,8 @@ import axios from "axios"
 
 const state={
     userdetail:[],
-    status:null
+    status:null,
+    loginstatus:null
 }
 
 const getters={
@@ -18,12 +19,15 @@ const getters={
 }
 
 const mutations={
-    setuserInfo:(state,uinfo)=>{
+    setUserInfo:(state,uinfo)=>{
         state.user=uinfo
         localStorage.setItem("uinfo",JSON.stringify(uinfo))
     },
     setUserStatus:(state,status)=>{
         state.status=status
+    },
+    setUserLoginStatus:(state,status)=>{
+        state.loginstatus=status
     }
 }
 
@@ -31,7 +35,6 @@ const mutations={
 const actions={
     async register({commit},uinfo){
         var flag=false
-        
         await axios.post("http://localhost:9090/v1/user/register",{
             phone:uinfo.phone,
             nickname:uinfo.name,
@@ -50,7 +53,27 @@ const actions={
             .catch(error=>{
                 console.log(error)
             })
-        return flag
+    },
+    async login({commit},uinfo){
+        var flag=false
+        await axios.post("http://localhost:9090/v1/user/login",{
+            nickname:uinfo.name,
+            password:uinfo.passwd
+        })
+            .then(response=>{
+                const status=response.data.status
+                const retuinfo=response.data.data
+                console.log("the response status is:",status)
+                if (status===200){
+                    flag=true
+                }
+                console.log("the response flag is:",flag)
+                commit("setUserLoginStatus",flag)
+                commit("setUserInfo",retuinfo)
+            })
+            .catch(error=>{
+                console.log(error)
+            })
     }
 }
 
