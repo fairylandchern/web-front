@@ -14,7 +14,7 @@
       </el-submenu>
       <el-menu-item index="3">
       <el-input
-      placeholder="请输入内容" v-model="input23">
+      placeholder="请输入内容" v-model="searchtext">
        <i slot="prefix" class="el-input__icon el-icon-search"></i>
        </el-input>
       </el-menu-item>
@@ -44,12 +44,11 @@
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose">
+      >
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>导航一</span>
+          <span>分类</span>
         </template>
         <el-menu-item-group>
           <template slot="title">分组一</template>
@@ -79,62 +78,70 @@
     </el-menu>
     </el-aside>
     <el-main>
-     <quill-editor ref="myTextEditor"
-              v-model="content"
-              @blur="onEditorBlur($event)"
-              @focus="onEditorFocus($event)"
-              @ready="onEditorReady($event)">
-</quill-editor>
-<el-button type="primary" @click="submit()">发布帖子</el-button>
+    <el-form :model="form">
+      <el-form-item label="标题">
+        <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+      </el-form-item>
+      <el-form-item >
+         <vue-editor v-model="form.content"
+    @imageAdded="handleImageAdded"
+    >
+
+    </vue-editor>
+    <el-button type="primary" @click="submit()">发布帖子</el-button>
+      </el-form-item>
+    </el-form>
+<div v-html="form.content"></div>
 </el-main>
 </el-container>
 <el-footer>@copyright by chen</el-footer>
 </el-container>
 </template>
 <script>
-import {mapActions} from 'vuex'
+import { mapActions, mapGetters } from "vuex";
+import { VueEditor } from "vue2-editor";
 export default {
-  data () {
-    return {
-      content: '<h2>I am Example</h2>'
-    }
+  components: {
+    VueEditor
   },
-  // if you need to manually control the data synchronization, parent component needs to explicitly emit an event instead of relying on implicit binding
-  // 如果需要手动控制数据同步，父组件需要显式地处理changed事件
+
+  data() {
+    return {
+      searchtext:'',
+      form: {
+        title: "",
+        titletype: "",
+        content: "<p>some content</p>",
+        nickname: ""
+      }
+    };
+  },
   methods: {
-    onEditorBlur(editor) {
-      console.log('editor blur!', editor)
+    handleImageAdded() {
+      console.log("image added");
     },
-    onEditorFocus(editor) {
-      console.log('editor focus!', editor)
-    },
-    onEditorReady(editor) {
-      console.log('editor ready!', editor)
-    },
-    onEditorChange({ editor, html, text }) {
-      // console.log('editor change!', editor, html, text)
-      this.content = html
-    },
-     ...mapActions({
-      logout:"logout"
-    })
+    ...mapActions({
+      logout: "logout"
+    }),
+    submit() {
+      alert("the content is", this.content);
+    }
   },
   // if you need to get the current editor object, you can find the editor object like this, the $ref object is a ref attribute corresponding to the dom redefined
   // 如果你需要得到当前的editor对象来做一些事情，你可以像下面这样定义一个方法属性来获取当前的editor对象，实际上这里的$refs对应的是当前组件内所有关联了ref属性的组件元素对象
   computed: {
-    editor() {
-      return this.$refs.myTextEditor.quillEditor
-    }
+    quill() {
+      return this.$refs.myTextEditor.quill;
+    },
+    ...mapGetters({
+      loginStatus: "getUserLoginStatus"
+    })
   },
-  mounted() {
-    // you can use current editor object to do something(editor methods)
-    console.log('this is my editor', this.editor)
-    // this.editor to do something...
-  },
-  created(){
-  if(localStorage.getItem("uinfo")){
-      this.$store.commit("setUserLoginStatus",true)
+  mounted() {},
+  created() {
+    if (localStorage.getItem("uinfo")) {
+      this.$store.commit("setUserLoginStatus", true);
     }
   }
-}
+};
 </script>
