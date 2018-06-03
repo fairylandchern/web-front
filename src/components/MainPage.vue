@@ -1,7 +1,7 @@
 <template>
 <el-container width="300px">
   <el-header> 
-    <el-menu default-active="activeIndex" mode="horizontal" router=true>
+    <el-menu default-active="activeIndex" mode="horizontal" router="true">
       <el-menu-item index="1" route="/">
         首页
       </el-menu-item>
@@ -20,7 +20,7 @@
       </el-menu-item>
         <el-submenu index="6" v-if="loginStatus">
           <template slot="title">用户信息</template>
-          <el-menu-item index="6-1" route="/userinfo/:id">
+          <el-menu-item index="6-1" route="/userinfo">
             个人主页
           </el-menu-item>
           <el-menu-item index="6-2" @click="logout" route="/">
@@ -52,10 +52,12 @@
     </el-menu>
     </el-aside>
     <el-main>
-      <el-table :data="urls">
-         <el-table-column  prop="url">
-      </el-table-column>
-      </el-table>
+      <el-menu default-active="1" router="true">
+        <el-menu-item   v-for="(item,index) in issueitems" :key="index"  :index="index" :route="'/issuedetail/'+item.issue_id"  >
+        <!-- <router-link  to="'/issuedetail'+index" ></router-link> -->
+            {{item.issue_title}}{{index}}
+        </el-menu-item>
+      </el-menu>
   <el-pagination
   :page-size="20"
   :pager-count="11"
@@ -64,7 +66,7 @@
 </el-pagination>
 </el-main>
 </el-container>
-<el-footer>@copyright by chen</el-footer>
+<el-footer>copyright by chen</el-footer>
 </el-container>
 </template>
 <script>
@@ -80,7 +82,8 @@ export default {
   },
   computed:{...mapGetters({
     items:'getItems',
-    loginStatus:"getUserLoginStatus"
+    loginStatus:"getUserLoginStatus",
+    issueitems:"getissues"
   })
   },
   methods:{
@@ -93,6 +96,7 @@ export default {
       this.$store.commit("setUserLoginStatus",true)
     }
     this.$store.dispatch('getAllItems')
+    this.$store.dispatch('getIssues')
   }
 };
 </script>

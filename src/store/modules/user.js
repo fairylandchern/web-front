@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const state={
-    userdetail:[],
+    userdetail:null,
     status:null,
     loginstatus:null
 }
@@ -9,7 +9,7 @@ const state={
 const getters={
     getUserInfo:(state)=>{
         if(!state.userdetail){
-            return localStorage.getItem("uinfo")
+            return  JSON.parse(localStorage.getItem("uinfo"))
         }
         return state.userdetail
     },

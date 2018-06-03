@@ -5,6 +5,7 @@ import Register from '@/components/Register'
 import Login    from '@/components/Login'
 import IssuePost from '@/components/IssuePost'
 import UserInfo from '@/components/UserInfo'
+import IssueDetail from '@/components/IssueDetail'
 import { Main } from 'element-ui';
 import { Store } from 'vuex';
 Vue.use(Router)
@@ -35,10 +36,15 @@ Vue.use(Router)
       beforeEnter:requireAuth
     },
     {
-      path:"/userinfo/:id",
+      path:"/userinfo",
       name:"UserInfo",
       component:UserInfo,
       beforeEnter:requireAuth
+    },
+    {
+      path:"/issuedetail/:id",
+      name:"issuedetail",
+      component:IssueDetail
     }
   ]
 })

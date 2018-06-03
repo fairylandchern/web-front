@@ -20,7 +20,7 @@
       </el-menu-item>
         <el-submenu index="6" v-if="loginStatus">
           <template slot="title">用户信息</template>
-          <el-menu-item index="6-1" route="/userinfo/:id">
+          <el-menu-item index="6-1" route="/userinfo">
             个人主页
           </el-menu-item>
           <el-menu-item index="6-2" @click="logout" route="/">

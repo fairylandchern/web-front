@@ -20,7 +20,7 @@
       </el-menu-item>
         <el-submenu index="6" v-if="loginStatus">
           <template slot="title">用户信息</template>
-          <el-menu-item index="6-1" route="/userinfo/:id">
+          <el-menu-item index="6-1" route="/userinfo">
             个人主页
           </el-menu-item>
           <el-menu-item index="6-2" @click="logout" route="/">
@@ -78,17 +78,17 @@
     </el-menu>
     </el-aside>
     <el-main>
-    <el-form :model="form">
+    <el-form :model="form" :ref="form">
       <el-form-item label="标题">
-        <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+        <el-input v-model="form.issue_title" placeholder="请输入标题"></el-input>
       </el-form-item>
       <el-form-item >
-         <vue-editor v-model="form.content"
+         <vue-editor v-model="form.issue_content"
     @imageAdded="handleImageAdded"
     >
 
     </vue-editor>
-    <el-button type="primary" @click="submit()">发布帖子</el-button>
+    <el-button type="primary" @click="submit(form)">发布帖子</el-button>
       </el-form-item>
     </el-form>
 <div v-html="form.content"></div>
@@ -104,15 +104,24 @@ export default {
   components: {
     VueEditor
   },
+  // type Issue struct {
+  // 	IssueId int `json:"issue_id" orm:"column(issue_id);pk;auto;uinque" `
+  // 	UserId  int `json:"user_id"  orm:"column(user_id)"`
+  // 	IssueContent string `json:"issue_content" orm:"column(issue_content);type(text);size(1073741824)"`
+  // 	IssueTitle string `json:"issue_title" orm:"column(issue_title);size(100)"`
+  // 	Created time.Time `json:"created,omitempty" orm:"column(created);auto_now_add;type(datetime)"`
+  // 	Updated time.Time `json:"updated,omitempty" orm:"column(updated);auto_now_add;type(datetime)"`
+  // 	TypeId int `json:"type_id,omitempty" orm:"column(type_id)" `
+  // }
 
   data() {
     return {
-      searchtext:'',
+      searchtext: "",
       form: {
-        title: "",
-        titletype: "",
-        content: "<p>some content</p>",
-        nickname: ""
+        issue_title: "",
+        type_id: 1,
+        issue_content: "",
+        user_id: 1
       }
     };
   },
@@ -123,18 +132,22 @@ export default {
     ...mapActions({
       logout: "logout"
     }),
-    submit() {
-      alert("the content is", this.content);
+    submit(form) {
+      this.$store.dispatch("pushIssue", form);
+      console.log("this issue status is:", this.issuestatus);
+      setTimeout(() => {
+        if (this.issuestatus) {
+          alert("添加文本成功");
+          this.$router.push('/')
+          return;
+        }
+      }, 1000);
     }
   },
-  // if you need to get the current editor object, you can find the editor object like this, the $ref object is a ref attribute corresponding to the dom redefined
-  // 如果你需要得到当前的editor对象来做一些事情，你可以像下面这样定义一个方法属性来获取当前的editor对象，实际上这里的$refs对应的是当前组件内所有关联了ref属性的组件元素对象
   computed: {
-    quill() {
-      return this.$refs.myTextEditor.quill;
-    },
     ...mapGetters({
-      loginStatus: "getUserLoginStatus"
+      loginStatus: "getUserLoginStatus",
+      issuestatus: "getissuestatus"
     })
   },
   mounted() {},
