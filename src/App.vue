@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1>职场言职论坛</h1>
+    <h1>员工言职在线论坛</h1>
     <router-view/>
   </div>
 </template>

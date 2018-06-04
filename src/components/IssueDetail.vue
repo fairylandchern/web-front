@@ -14,7 +14,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <el-menu-item index="2-2">浏览帖子</el-menu-item>
+        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -43,12 +43,24 @@
 </el-header>
     <el-container>
         <el-main>
-            <h2>{{item.issue_title}}</h2>
+           
+           <el-card class="box-card">
+                    <div slot="header" class="title">
+                        <span>{{item.issue_title}}</span>
+                    </div>
            <div v-html="item.issue_content"></div>
-           <hr>
+                </el-card>
            <h3>评论信息</h3>
-           <div v-for="(comment,index) in comments" :key="index" v-html="comment.comment_content">
-             {{comment.issue_id}}
+           <div v-for="(comment,index) in comments" :key="index" class="comment-div" >
+             <el-container class="comment">
+               <el-aside><p>用户：{{comment.user_id}}</p>
+               </el-aside>
+               <hr>
+               <el-main>
+                  <p v-html="comment.comment_content"></p>
+               </el-main>
+             </el-container>
+             <hr>
            </div>
         </el-main>
         <el-footer>
@@ -135,3 +147,25 @@ export default {
   }
 };
 </script>
+<style>
+.box-card {
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.title{
+  font: outline;
+  font-size: 20px;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+}
+.comment{
+  background-clip: border-box;
+  background-size: 80%;
+  background-color:ghostwhite;
+}
+.comment-div{
+  size: 80%;
+}
+</style>
+

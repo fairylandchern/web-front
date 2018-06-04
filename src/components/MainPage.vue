@@ -10,7 +10,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <el-menu-item index="2-2">浏览帖子</el-menu-item>
+        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -40,7 +40,7 @@
    
 <div class="line"></div>
   <el-container>
-    <el-aside >
+    <!-- <el-aside >
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
@@ -48,25 +48,21 @@
       <el-menu-item >分类</el-menu-item>
      <el-menu-item v-for="item in items" :key="item.id" :index="item.id">
        {{item.main_title_type_name}}
+       <hr>
      </el-menu-item>
     </el-menu>
-    </el-aside>
+    </el-aside> -->
     <el-main>
       <el-menu default-active="1" router="true">
         <el-menu-item   v-for="(item,index) in issueitems" :key="index"  :index="index" :route="'/issuedetail/'+item.issue_id"  >
         <!-- <router-link  to="'/issuedetail'+index" ></router-link> -->
             {{item.issue_title}}{{index}}
+            <hr>
         </el-menu-item>
       </el-menu>
-  <el-pagination
-  :page-size="20"
-  :pager-count="11"
-  layout="prev, pager, next"
-  :total="1000">
-</el-pagination>
 </el-main>
 </el-container>
-<el-footer>copyright by chen</el-footer>
+<el-footer>&copy;chen</el-footer>
 </el-container>
 </template>
 <script>
