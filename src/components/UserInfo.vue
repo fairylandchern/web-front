@@ -10,7 +10,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <el-menu-item index="2-2">浏览帖子</el-menu-item>
+        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -39,7 +39,17 @@
 </el-header>
         <el-container>
             <el-main>
-                <p>用户名:{{uinfo.nickname}}</p>
+                <el-card class="box-card">
+                    <div slot="header">
+                        <span>用户个人信息</span>
+                    </div>
+                    <div class="userinfo">
+                    <p>用户名:{{uinfo.nickname}}</p>
+                    <p>密码：{{uinfo.password}}</p>
+                    <p>电话:{{uinfo.phone}}</p>
+                    </div>
+                    
+                </el-card>
             </el-main>
         </el-container>
 </el-container>
@@ -48,18 +58,16 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
-      return{
-
-      }
+    return {};
   },
   computed: {
-      ...mapGetters({
-          uinfo:"getUserInfo",
-           loginStatus: "getUserLoginStatus",
-      })
+    ...mapGetters({
+      uinfo: "getUserInfo",
+      loginStatus: "getUserLoginStatus"
+    })
   },
   methods: {
-       ...mapActions({
+    ...mapActions({
       logout: "logout"
     })
   },
@@ -70,3 +78,10 @@ export default {
   }
 };
 </script>
+<style>
+.box-card {
+    width: 40%;
+    margin-left:auto;
+    margin-right:auto;
+}
+</style>

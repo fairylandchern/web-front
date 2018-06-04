@@ -10,7 +10,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <el-menu-item index="2-2">浏览帖子</el-menu-item>
+        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
       </el-submenu>
       <el-menu-item index="3">
       <el-input

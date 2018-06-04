@@ -10,7 +10,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <el-menu-item index="2-2">浏览帖子</el-menu-item>
+        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -39,50 +39,23 @@
 </el-header>
 <div class="line"></div>
   <el-container>
-    <el-aside >
-      <template slot="title">侧边导航区域</template>
-    <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      >
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>分类</span>
-        </template>
-        <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
-      </el-menu-item>
-    </el-menu>
-    </el-aside>
+    <!-- <el-aside >
+        <span>分类</span>
+        <el-checkbox-group aria-orientation="vertical">
+          <el-checkbox  v-for="(item,index) in items"  :key="index">
+             {{item.main_title_type_name}}
+          </el-checkbox>
+        </el-checkbox-group>
+    </el-aside> -->
     <el-main>
     <el-form :model="form" :ref="form">
-      <el-form-item label="标题">
+      <el-form-item>
+        <span>标题</span>
         <el-input v-model="form.issue_title" placeholder="请输入标题"></el-input>
       </el-form-item>
-      <el-form-item >
+     
+      <el-form-item>
+        <span>帖子内容</span>
          <vue-editor v-model="form.issue_content"
     @imageAdded="handleImageAdded"
     >
@@ -94,7 +67,7 @@
 <div v-html="form.content"></div>
 </el-main>
 </el-container>
-<el-footer>@copyright by chen</el-footer>
+<el-footer>&copy; by chen</el-footer>
 </el-container>
 </template>
 <script>
@@ -104,16 +77,6 @@ export default {
   components: {
     VueEditor
   },
-  // type Issue struct {
-  // 	IssueId int `json:"issue_id" orm:"column(issue_id);pk;auto;uinque" `
-  // 	UserId  int `json:"user_id"  orm:"column(user_id)"`
-  // 	IssueContent string `json:"issue_content" orm:"column(issue_content);type(text);size(1073741824)"`
-  // 	IssueTitle string `json:"issue_title" orm:"column(issue_title);size(100)"`
-  // 	Created time.Time `json:"created,omitempty" orm:"column(created);auto_now_add;type(datetime)"`
-  // 	Updated time.Time `json:"updated,omitempty" orm:"column(updated);auto_now_add;type(datetime)"`
-  // 	TypeId int `json:"type_id,omitempty" orm:"column(type_id)" `
-  // }
-
   data() {
     return {
       searchtext: "",
@@ -146,6 +109,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      items:'getItems',
       loginStatus: "getUserLoginStatus",
       issuestatus: "getissuestatus"
     })
@@ -155,6 +119,7 @@ export default {
     if (localStorage.getItem("uinfo")) {
       this.$store.commit("setUserLoginStatus", true);
     }
+    this.$store.dispatch('getAllItems')
   }
 };
 </script>
