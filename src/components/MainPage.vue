@@ -10,7 +10,7 @@
         <el-menu-item index="2-1" route="/issue">
           发布帖子
         </el-menu-item>
-        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
+        <el-menu-item index="2-2" route="/allissues">已发帖子</el-menu-item>
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -18,6 +18,7 @@
        <i slot="prefix" class="el-input__icon el-icon-search"></i>
        </el-input>
       </el-menu-item>
+      <el-menu-item index="7" route="/comments">评论管理</el-menu-item>
         <el-submenu index="6" v-if="loginStatus">
           <template slot="title">用户信息</template>
           <el-menu-item index="6-1" route="/userinfo">
@@ -40,24 +41,20 @@
    
 <div class="line"></div>
   <el-container>
-    <!-- <el-aside >
-    <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-     >
-      <el-menu-item >分类</el-menu-item>
-     <el-menu-item v-for="item in items" :key="item.id" :index="item.id">
-       {{item.main_title_type_name}}
-       <hr>
-     </el-menu-item>
-    </el-menu>
-    </el-aside> -->
+    <el-aside >
+     <span>分类:</span>
+        <el-radio-group v-model="type_id" aria-orientation="vertical" @change="filterissues(type_id)">
+          <el-radio-button :label=0 >全部</el-radio-button>
+          <el-radio-button  v-for="item in items" :label="item.main_title_type_id" :key="item.main_title_type_id">
+            {{item.main_title_type_name}}
+          </el-radio-button>
+        </el-radio-group>
+    </el-aside>
     <el-main>
       <el-menu default-active="1" router="true">
-        <el-menu-item   v-for="(item,index) in issueitems" :key="index"  :index="index" :route="'/issuedetail/'+item.issue_id"  >
+        <el-menu-item   v-for="(item,index) in issueitems" :key="index"  :index="index" :route="'/issuedetail/'+item.issue_id" class="issue" >
         <!-- <router-link  to="'/issuedetail'+index" ></router-link> -->
             {{item.issue_title}}{{index}}
-            <hr>
         </el-menu-item>
       </el-menu>
 </el-main>
@@ -66,7 +63,7 @@
 </el-container>
 </template>
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters,mapActions,mapMutations } from "vuex";
 export default {
   data() {
     const item = {
@@ -74,6 +71,7 @@ export default {
     };
     return {
       urls: Array(20).fill(item),
+      type_id:null,
     };
   },
   computed:{...mapGetters({
@@ -84,8 +82,21 @@ export default {
   },
   methods:{
     ...mapActions({
-      logout:"logout"
-    })
+      logout:"logout",
+    }),
+    ...mapMutations(
+     {
+      filterissues:"filterissues",
+     }
+    ),
+    // filterissues(type_id){
+    //   console.log("the type id is:",type_id)
+    //   var tempitems=this.issueitems.filter(issueitem=>{
+    //     return issueitem.type_id===type_id
+    //   })
+    //   console.log("the filter item is:",tempitems)
+    //   this.$store.commit("filterissues",this.type_id)
+    // }
   },
   created(){
     if(localStorage.getItem("uinfo")){
@@ -97,6 +108,10 @@ export default {
 };
 </script>
 <style>
+.issue{
+  border: 1px solid royalblue;
+  background-color: blanchedalmond;
+}
 .el-footer {
   background-color: #b3c0d1;
   color: #333;

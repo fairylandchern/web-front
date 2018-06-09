@@ -39,14 +39,14 @@
 </el-header>
 <div class="line"></div>
   <el-container>
-    <!-- <el-aside >
-        <span>分类</span>
-        <el-checkbox-group aria-orientation="vertical">
-          <el-checkbox  v-for="(item,index) in items"  :key="index">
-             {{item.main_title_type_name}}
-          </el-checkbox>
-        </el-checkbox-group>
-    </el-aside> -->
+    <el-aside >
+        <span>分类:</span>
+        <el-radio-group v-model="form.type_id" aria-orientation="vertical">
+          <el-radio v-for="item in items" :label="item.main_title_type_id" :key="item.main_title_type_id">
+            {{item.main_title_type_name}}
+          </el-radio>
+        </el-radio-group>
+    </el-aside>
     <el-main>
     <el-form :model="form" :ref="form">
       <el-form-item>
@@ -82,9 +82,9 @@ export default {
       searchtext: "",
       form: {
         issue_title: "",
-        type_id: 1,
+        type_id: null,
         issue_content: "",
-        user_id: 1
+        user_id:null
       }
     };
   },
@@ -96,6 +96,7 @@ export default {
       logout: "logout"
     }),
     submit(form) {
+      form.user_id=this.uinfo.id
       this.$store.dispatch("pushIssue", form);
       console.log("this issue status is:", this.issuestatus);
       setTimeout(() => {
@@ -110,6 +111,7 @@ export default {
   computed: {
     ...mapGetters({
       items:'getItems',
+      uinfo: "getUserInfo",
       loginStatus: "getUserLoginStatus",
       issuestatus: "getissuestatus"
     })
@@ -123,3 +125,18 @@ export default {
   }
 };
 </script>
+<style>
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: center;
+    line-height: 160px;
+  }
+</style>

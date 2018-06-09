@@ -6,6 +6,8 @@ import Login    from '@/components/Login'
 import IssuePost from '@/components/IssuePost'
 import UserInfo from '@/components/UserInfo'
 import IssueDetail from '@/components/IssueDetail'
+import  Allissues   from '@/components/Allissues'
+import Comments from '@/components/Comments'
 import { Main } from 'element-ui';
 import { Store } from 'vuex';
 Vue.use(Router)
@@ -39,6 +41,18 @@ Vue.use(Router)
       path:"/userinfo",
       name:"UserInfo",
       component:UserInfo,
+      beforeEnter:requireAuth
+    },
+    {
+      path:"/allissues",
+      name:"Allissues",
+      component:Allissues,
+      beforeEnter:requireAuth
+    },
+    {
+      path:"/comments",
+      name:"Comments",
+      component:Comments,
       beforeEnter:requireAuth
     },
     {

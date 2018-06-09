@@ -44,29 +44,31 @@
     <el-container>
         <el-main>
            
-           <el-card class="box-card">
+           <!-- <el-card class="box-card">
                     <div slot="header" class="title">
                         <span>{{item.issue_title}}</span>
                     </div>
            <div v-html="item.issue_content"></div>
-                </el-card>
+                </el-card> -->
+                <div class="issue">
+                  <span>{{item.issue_title}}</span><br>
+                  <p v-html="item.issue_content"></p>
+                </div>
            <h3>评论信息</h3>
            <div v-for="(comment,index) in comments" :key="index" class="comment-div" >
              <el-container class="comment">
                <el-aside><p>用户：{{comment.user_id}}</p>
                </el-aside>
-               <hr>
                <el-main>
                   <p v-html="comment.comment_content"></p>
                </el-main>
              </el-container>
-             <hr>
            </div>
         </el-main>
         <el-footer>
             <h4>发表评论</h4>
         <div  v-if="loginStatus">
-           <vue-editor v-model="form.comment_content"></vue-editor>
+           <vue-editor v-model="form.comment_content" aria-placeholder="请输入评论"></vue-editor>
            <el-button type="primary" @click="submit(form)">发布评论</el-button>
         </div>
        
@@ -93,7 +95,7 @@ export default {
       form: {
         user_id: null,
         issue_id: null,
-        comment_content: "发表言论"
+        comment_content: ""
       }
     };
   },
@@ -148,6 +150,10 @@ export default {
 };
 </script>
 <style>
+.issue{
+  border: 1px solid royalblue;
+  background-color: blanchedalmond;
+}
 .box-card {
     width: 80%;
     margin-left:auto;
@@ -166,6 +172,13 @@ export default {
 }
 .comment-div{
   size: 80%;
+  border: 1px cornflowerblue solid;
+  background-color: antiquewhite;
+}
+.el-aside{
+  /* float: left; */
+  padding-left: 15px;
+  border-right: 1px solid #dddddd;
 }
 </style>
 

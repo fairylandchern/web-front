@@ -1,9 +1,10 @@
 import axios from 'axios'
 
 const state={
-    issues:[],
+    issues:null,
     issuestatus:null,
-    issueItem:null
+    issueItem:null,
+    filterissues:null,
 }
 
 const getters={
@@ -15,18 +16,30 @@ const getters={
     },
     getissueitem:(state)=>{
         return state.issueItem
-    }
+    },
 }
 
 const mutations={
     setissues:(state,issues)=>{
         state.issues=issues
+        state.filterissues=issues
     },
     setissuetatus:(state,status)=>{
         state.issuestatus=status
     },
     setissueItem:(state,item)=>{
         state.issueItem=item
+    },
+    filterissues:(state,type_id)=>{
+        console.log("type id is:",type_id)
+        if (type_id===0) {
+            state.issues=state.filterissues
+            console.log("state issue is:",state.issues)
+        }else{
+            state.issues=state.filterissues.filter(issueitem=>{
+                return issueitem.type_id===type_id
+            })
+        }
     }
 }
 
@@ -90,7 +103,7 @@ const actions={
                     commit("setissuetatus",false)
                 }
             })
-    }
+    },
 }
 
 export default {
