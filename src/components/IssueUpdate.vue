@@ -78,24 +78,24 @@ export default {
   },
   data() {
     return {
-      searchtext: "",
-      form: {
-        issue_title: null,
-        type_id: null,
-        issue_content: null,
-        user_id:null
-      }
+      searchtext: ""
+      // form: {
+      //   issue_title: null,
+      //   type_id: null,
+      //   issue_content: null,
+      //   user_id:null
+      // }
     };
   },
   methods: {
-    // getdata() {
-    //   let issue_id = this.$route.params.id;
-    //   console.log("id is", issue_id);
-    //   if (issue_id == undefined) {
-    //   return null;
-    //   }
-    //   return issue_id;
-    // },
+    getdata() {
+      let issue_id = this.$route.params.id;
+      console.log("id is", issue_id);
+      if (issue_id == undefined) {
+      return null;
+      }
+      return issue_id;
+    },
     handleImageAdded() {
       console.log("image added");
     },
@@ -103,12 +103,12 @@ export default {
       logout: "logout"
     }),
     submit(form) {
-      form.user_id = this.uinfo.id;
-      this.$store.dispatch("pushIssue", form);
+    //   form.user_id = this.uinfo.id;
+      this.$store.dispatch("updateIssue", form);
       console.log("this issue status is:", this.issuestatus);
       setTimeout(() => {
         if (this.issuestatus) {
-          alert("添加文本成功");
+          alert("更新帖子成功");
           this.$router.push("/");
           return;
         }
@@ -117,6 +117,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      form: "getissueitem",
       items: "getItems",
       uinfo: "getUserInfo",
       loginStatus: "getUserLoginStatus",
@@ -129,15 +130,15 @@ export default {
     if (localStorage.getItem("uinfo")) {
       this.$store.commit("setUserLoginStatus", true);
     }
-    // var issue_id = this.getdata();
-    // console.log("issue id is:",issue_id)
-    // if (issue_id != null) {
-    //   issue_id = parseInt(issue_id);
-    //   console.log("the issue_id params is:", issue_id);
-    //   var item = { issue_id: issue_id };
-    //   this.$store.dispatch("getIssueByIssueId", item);
-    // }
-    // this.$store.commit("clearissueItem")
+    var issue_id = this.getdata();
+    console.log("issue id is:",issue_id)
+    if (issue_id != null) {
+      issue_id = parseInt(issue_id);
+      console.log("the issue_id params is:", issue_id);
+      var item = { issue_id: issue_id };
+      this.$store.dispatch("getIssueByIssueId", item);
+    }
+    this.$store.commit("clearissueItem")
     this.$store.dispatch("getAllItems");
   }
 };

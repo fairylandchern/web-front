@@ -62,9 +62,10 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      items: "getItems",
+      // items: "getItems",
       loginStatus: "getUserLoginStatus",
-      issueitems: "getUserIssues"
+      issueitems: "getUserIssues",
+      issuestatus: "getissuestatus",
     })
   },
   methods: {
@@ -77,17 +78,25 @@ export default {
     },
     handleEditClick(row) {
       console.log(row.issue_id)
-      this.$router.push("/issue/"+row.issue_id)
+      this.$router.push("/issueupdate/"+row.issue_id)
     },
     handleDelClick(row) {
       console.log(row.issue_id)
+       var item = { issue_id: row.issue_id };
+      this.$store.dispatch("deleteIssueById",item)
+       setTimeout(() => {
+        if (this.issuestatus) {
+          location.reload()
+          return;
+        }
+      }, 1000);
     }
   },
   created() {
     if (localStorage.getItem("uinfo")) {
       this.$store.commit("setUserLoginStatus", true);
     }
-    this.$store.dispatch("getAllItems");
+    // this.$store.dispatch("getAllItems");
     this.$store.dispatch("getIssues");
   }
 };

@@ -76,6 +76,21 @@ const actions={
             console.log("error is",error)
         })
     },
+    async queryallcommentsbyUserid({commit},id){
+        await axios.get("http://localhost:9090/v1/issue_comment/querybyuser/"+id)
+        .then(Response=>{
+            console.log(Response.data)
+            if(Response.data.status===200){
+                commit("setcommentStatus",true)
+                commit("setcommentItems",Response.data.data)
+            }else{
+                commit("setcommentStatus",false)
+            }
+        })
+        .catch(error=>{
+            console.log("error is",error)
+        })
+    },
     async deletecomment({commit},comment_id){
         await axios.post("http://localhost:9090/v1/issue_comment/delete",comment_id)
         .then(Response=>{

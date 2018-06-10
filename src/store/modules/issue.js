@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const state={
-    issues:null,
+    issues:[],
     issuestatus:null,
     issueItem:{
         issue_title: null,
@@ -9,7 +9,7 @@ const state={
         issue_content: null,
         user_id:null
        },
-    filterissues:null,
+    filterissues:[],
 }
 
 const getters={
@@ -88,6 +88,21 @@ const actions={
                 console.log(error)
             })
     },
+    async updateIssue({commit},issue){
+        await axios.post("http://localhost:9090/v1/issue/update",issue)
+            .then(response=>{
+                console.log(response.data)
+                if (response.data.status===200){
+                   commit("setissuetatus",true)
+                   console.log("设置状态",true)
+                }else{
+                    commit("setissuetatus",false)
+                }
+            })
+            .catch(error=>{
+                console.log(error)
+            })
+    },
     async getIssues({commit}){
         await axios.get("http://localhost:9090/v1/issue/querybasic")
         .then(response=>{
@@ -133,6 +148,7 @@ const actions={
                 }
             })
     },
+    
 }
 
 export default {

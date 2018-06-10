@@ -8,6 +8,7 @@ import UserInfo from '@/components/UserInfo'
 import IssueDetail from '@/components/IssueDetail'
 import  Allissues   from '@/components/Allissues'
 import Comments from '@/components/Comments'
+import IssueUpdate from '@/components/IssueUpdate'
 import { Main } from 'element-ui';
 import { Store } from 'vuex';
 Vue.use(Router)
@@ -32,9 +33,15 @@ Vue.use(Router)
       component:Login
     },
     {
-      path:"/issue/:id?",
+      path:"/issue",
       name:"IssuePost",
       component:IssuePost,
+      beforeEnter:requireAuth
+    },
+    {
+      path:"/issueupdate/:id?",
+      name:"IssueUpdate",
+      component:IssueUpdate,
       beforeEnter:requireAuth
     },
     {
