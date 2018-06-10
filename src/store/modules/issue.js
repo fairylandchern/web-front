@@ -3,7 +3,12 @@ import axios from 'axios'
 const state={
     issues:null,
     issuestatus:null,
-    issueItem:null,
+    issueItem:{
+        issue_title: null,
+        type_id: null,
+        issue_content: null,
+        user_id:null
+       },
     filterissues:null,
 }
 
@@ -15,8 +20,24 @@ const getters={
         return state.issuestatus
     },
     getissueitem:(state)=>{
+        // if(issueItem ===null){
+        //     const form=
+        // console.log("issue item is 自定义")
+        //        return form;
+        // }
+        // console.log("issue item is:未定义")
         return state.issueItem
     },
+    getUserIssues:(state)=>{
+        var user_id=JSON.parse(localStorage.getItem("uinfo")).id;
+        console.log("user id is:",user_id)
+        console.log("issue is",state.issues)
+        var temps=state.issues.filter(issueitem=>{
+            return issueitem.user_id===user_id
+        })
+        console.log("临时数据为:",temps)
+        return temps
+    }
 }
 
 const mutations={
@@ -40,6 +61,14 @@ const mutations={
                 return issueitem.type_id===type_id
             })
         }
+    },
+    clearissueItem:(state)=>{
+        state.issueItem= {
+            issue_title: null,
+            type_id: null,
+            issue_content: null,
+            user_id:null
+           }
     }
 }
 

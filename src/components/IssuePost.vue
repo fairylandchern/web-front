@@ -64,7 +64,6 @@
     <el-button type="primary" @click="submit(form)">发布帖子</el-button>
       </el-form-item>
     </el-form>
-<div v-html="form.content"></div>
 </el-main>
 </el-container>
 <el-footer>&copy; by chen</el-footer>
@@ -79,16 +78,24 @@ export default {
   },
   data() {
     return {
-      searchtext: "",
-      form: {
-        issue_title: "",
-        type_id: null,
-        issue_content: "",
-        user_id:null
-      }
+      searchtext: ""
+      // form: {
+      //   issue_title: null,
+      //   type_id: null,
+      //   issue_content: null,
+      //   user_id:null
+      // }
     };
   },
   methods: {
+    getdata() {
+      let issue_id = this.$route.params.id;
+      console.log("id is", issue_id);
+      if (issue_id == undefined) {
+      return null;
+      }
+      return issue_id;
+    },
     handleImageAdded() {
       console.log("image added");
     },
@@ -96,13 +103,13 @@ export default {
       logout: "logout"
     }),
     submit(form) {
-      form.user_id=this.uinfo.id
+      form.user_id = this.uinfo.id;
       this.$store.dispatch("pushIssue", form);
       console.log("this issue status is:", this.issuestatus);
       setTimeout(() => {
         if (this.issuestatus) {
           alert("添加文本成功");
-          this.$router.push('/')
+          this.$router.push("/");
           return;
         }
       }, 1000);
@@ -110,33 +117,44 @@ export default {
   },
   computed: {
     ...mapGetters({
-      items:'getItems',
+      form: "getissueitem",
+      items: "getItems",
       uinfo: "getUserInfo",
       loginStatus: "getUserLoginStatus",
       issuestatus: "getissuestatus"
     })
   },
-  mounted() {},
+  mounted() {
+  },
   created() {
     if (localStorage.getItem("uinfo")) {
       this.$store.commit("setUserLoginStatus", true);
     }
-    this.$store.dispatch('getAllItems')
+    var issue_id = this.getdata();
+    console.log("issue id is:",issue_id)
+    if (issue_id != null) {
+      issue_id = parseInt(issue_id);
+      console.log("the issue_id params is:", issue_id);
+      var item = { issue_id: issue_id };
+      this.$store.dispatch("getIssueByIssueId", item);
+    }
+    this.$store.commit("clearissueItem")
+    this.$store.dispatch("getAllItems");
   }
 };
 </script>
 <style>
-  .el-aside {
-    background-color: #D3DCE6;
-    color: #333;
-    text-align: center;
-    line-height: 200px;
-  }
-  
-  .el-main {
-    background-color: #E9EEF3;
-    color: #333;
-    text-align: center;
-    line-height: 160px;
-  }
+.el-aside {
+  background-color: #d3dce6;
+  color: #333;
+  text-align: center;
+  line-height: 200px;
+}
+
+.el-main {
+  background-color: #e9eef3;
+  color: #333;
+  text-align: center;
+  line-height: 160px;
+}
 </style>

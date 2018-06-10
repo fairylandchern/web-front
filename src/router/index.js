@@ -32,7 +32,7 @@ Vue.use(Router)
       component:Login
     },
     {
-      path:"/issue",
+      path:"/issue/:id?",
       name:"IssuePost",
       component:IssuePost,
       beforeEnter:requireAuth
