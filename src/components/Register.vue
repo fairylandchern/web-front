@@ -1,16 +1,19 @@
 <template>
 <el-container width="300px">
-  <el-header> 
-    <el-menu default-active="activeIndex" mode="horizontal" router=true>
-      <el-menu-item index="1" route="/">
+  <el-header > 
+    <el-menu default-active="activeIndex" mode="horizontal" router="true">
+      <el-menu-item index="1" route="/" class="el-icon-home" >
         首页
       </el-menu-item>
-      <el-submenu index="2">
-       <template slot="title">帖子管理</template>
-        <el-menu-item index="2-1" route="/issue">
+      <el-submenu index="2" >
+       <template class="el-icon-menu" slot="title">
+         <i class="el-icon-menu"></i>
+         帖子管理
+         </template>
+        <el-menu-item index="2-1" route="/issue" class="el-icon-edit">
           发布帖子
         </el-menu-item>
-        <!-- <el-menu-item index="2-2">浏览帖子</el-menu-item> -->
+        <el-menu-item index="2-2" route="/allissues">已发帖子</el-menu-item>
       </el-submenu>
       <el-menu-item index="3">
       <el-input
@@ -18,7 +21,8 @@
        <i slot="prefix" class="el-input__icon el-icon-search"></i>
        </el-input>
       </el-menu-item>
-        <el-submenu index="6" v-if="loginStatus">
+      <el-menu-item index="7" route="/comments">评论管理</el-menu-item>
+        <el-submenu index="6" v-if="loginStatus" class="userinfo">
           <template slot="title">用户信息</template>
           <el-menu-item index="6-1" route="/userinfo">
             个人主页
@@ -27,11 +31,11 @@
             登出
           </el-menu-item>
         </el-submenu>
-      <template  v-else>
-        <el-menu-item index="4" route="/login" >
+      <template  v-else >
+        <el-menu-item index="4" route="/login" class="userinfo" >
         登陆
         </el-menu-item>
-        <el-menu-item index="5" route="/register">
+        <el-menu-item index="5" route="/register" class="userinfo">
         注册
         </el-menu-item>
       </template>
@@ -39,7 +43,7 @@
 </el-header>
 <el-container>
   <el-main>
-    <el-form ref="form"  :model="form" status-icon  :rules="rules1" label-width="80px">
+    <el-form ref="form"  :model="form" status-icon  :rules="rules1" label-width="80px" class="register_form">
   <el-form-item label="用户名" prop="nickname">
     <el-input v-model="form.nickname" placeholder="请输入用户名"></el-input>
   </el-form-item>
@@ -60,7 +64,7 @@
   </el-main>
  
 </el-container>
- 
+ <el-footer>&copy;chen</el-footer>
 </el-container>
 </template>
 <script>
@@ -70,27 +74,35 @@ export default {
     var checkname = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("昵称不能为空"));
+      }else{
+        callback();
       }
     };
     var validatepass = (rule, value, callback) => {
       if (value === "") {
         return callback(new Error("密码不可以为空"));
+      }else{
+        callback();
       }
     };
     var validatecheckpass = (rule, value, callback) => {
       if (!value) {
         callback(new Error("确认密码不能为空"));
-      } else if (value != this.form.password) {
+      } else if(!this.form.password){
+        callback(new Error("密码不能为空"))
+      }
+      else if (value != this.form.password) {
         callback(new Error("密码不一致"));
       } else {
         callback();
       }
     };
     var validatephone = (rule, value, callback) => {
+      var re_ph= /^[1][3,4,5,7,8][0-9]{9}$/; 
       if (!value) {
         callback(new Error("手机号不能为空"));
-      } else if (value.length != 11) {
-        callback(new Error("手机号应该为12位"));
+      } else if (!re_ph.test(value)) {
+        callback(new Error("手机号格式不正确"));
       } else {
         callback();
       }
@@ -117,7 +129,7 @@ export default {
           alert("submit!");
         } else {
           alert("error submit!");
-          return false;
+          return ;
         }
       });
       this.$store.dispatch("register", form);
@@ -127,7 +139,7 @@ export default {
         this.$router.push({ path: "/login" });
       } else {
         alert("registered failed");
-        return false;
+        return ;
       }
     },
     resetform(form) {
@@ -149,3 +161,20 @@ export default {
   }
 };
 </script>
+<style>
+.register_form{
+  padding: 10px;
+    margin: 0 8px;
+    width: 40%;
+    align-self: center;
+    align-content: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+ li.el-menu-item.userinfo{
+   float: right;
+ }
+ li.userinfo.el-submenu{
+   float: right;
+ }
+</style>

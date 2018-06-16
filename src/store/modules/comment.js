@@ -98,7 +98,7 @@ const actions={
             if(Response.data.status===200){
                 commit("setcommentStatus",true)
             }else{
-                commit("setcommentStatus",false)
+                commit("setcommentStatus",false)  
             }
         })
         .catch(error=>{
