@@ -143,7 +143,7 @@ export default {
       }
     },
     resetform(form) {
-      this.$refs[form].resetFields();
+      this.$refs["form"].resetFields();
     },
     ...mapActions({
       logout: "logout"

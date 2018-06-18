@@ -9,8 +9,13 @@ import IssueDetail from '@/components/IssueDetail'
 import  Allissues   from '@/components/Allissues'
 import Comments from '@/components/Comments'
 import IssueUpdate from '@/components/IssueUpdate'
-import { Main } from 'element-ui';
-import { Store } from 'vuex';
+import AdminLogin from "@/admin/AdminLogin"
+import Admin from "@/admin/Admin"
+import CommentsManage from "@/admin/CommentsManage"
+import IssueManage from "@/admin/Issuemanage"
+import TypeManage from "@/admin/TypeManage"
+import UserManage from "@/admin/Usermanage"
+import AdminInfo from "@/admin/AdminInfo"
 Vue.use(Router)
 
 
@@ -66,14 +71,31 @@ Vue.use(Router)
       path:"/issuedetail/:id",
       name:"issuedetail",
       component:IssueDetail
-    }
+    },
+    {
+      path:"/admin/login",
+      name:"AdminLogin",
+      component:AdminLogin
+    },
+    {
+      path:"/admin/main",
+      name:"Admin",
+      component:Admin,
+      children:[
+        {path:"commentsmanage",component:CommentsManage},
+        {path:"issuemanage",component:IssueManage},
+        {path:"typemanage",component:TypeManage},
+        {path:"usermanage",component:UserManage},
+        {path:"admininfo",component:AdminInfo},
+      ]
+    },
   ]
 })
 
 // router.beforeEach((to,from,next)=>{
 //   next('/login')
 // })
-function requireAuth(to,from,next) {
+function requireAuth(next) {
   if(localStorage.getItem("uinfo")){
     next()
   }else{

@@ -26,7 +26,7 @@ export default {
     background:url("./assets/bg.jpg")
   } */
   body{
-    background: aliceblue;
+    background: #dcdfe6;
   }
   h1>span{
     text-shadow:0 0 10px #e4e7ed;
