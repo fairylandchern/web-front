@@ -15,7 +15,7 @@
         </el-menu-item>
         <el-menu-item index="2-2" route="/allissues">已发帖子</el-menu-item>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="">
       <el-input
       placeholder="请输入内容" v-model="input23">
        <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -174,4 +174,10 @@ span.e-radio-button_inner{
 .el-menu-item, .el-submenu__title{
   margin-bottom: 10px;
 }
+li.el-menu-item.userinfo{
+   float: right;
+ }
+ li.userinfo.el-submenu{
+   float: right;
+ }
 </style>

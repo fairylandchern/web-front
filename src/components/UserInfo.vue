@@ -15,7 +15,7 @@
         </el-menu-item>
         <el-menu-item index="2-2" route="/allissues">已发帖子</el-menu-item>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="">
       <el-input
       placeholder="请输入内容" v-model="input23">
        <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -56,7 +56,7 @@
                 </el-card> -->
                 <div class="userinfo">
                   <a class="person_add_focus">
-                    <i class="el-icon-plus">关注</i>
+                    <i class="el-icon-edit">修改信息</i>
                   </a>
                   <dl class="person_photo">
                     <dt>
