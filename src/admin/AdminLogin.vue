@@ -6,13 +6,6 @@
           <div class="login_name">
                <p>后台管理系统</p>
           </div>
-          <!-- <form method="post">
-              <input name="username" type="text"  value="用户名" onfocus="this.value=''" onblur="if(this.value==''){this.value='用户名'}">
-              <span id="password_text" onclick="this.style.display='none';document.getElementById('password').style.display='block';document.getElementById('password').focus().select();" >密码</span>
-<input name="password" type="password" id="password" style="display:none;" onblur="if(this.value==''){document.getElementById('password_text').style.display='block';this.style.display='none'};"/>
-              <input value="登录" style="width:100%;" type="submit">
-          </form> -->
-  
       <el-form :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="register_form">
     <el-form-item label="用户名" prop="nickname">
         <el-input v-model="loginForm.nickname" placeholder="请输入姓名" auto-complete="off"></el-input>
@@ -20,7 +13,7 @@
     <el-form-item label="密码" prop="password">
         <el-input type="password" v-model="loginForm.password" auto-complete="false" placeholder="请输入密码"></el-input>
     </el-form-item>
-    <el-form-item >
+    <el-form-item >  
         <el-button type="primary" @click="submitForm(loginForm)">提交</el-button>
         <el-button type="primary" @click="resetForm(loginForm)">重置</el-button>
     </el-form-item>
@@ -77,7 +70,7 @@ export default {
       setTimeout(()=>{
       var flag=this.$store.getters.getadminLoginStatus
       if (flag) {
-         this.$router.push({ path: "/" });
+         this.$router.push({ path: "/admin/main" });
       }else{
         alert("登陆失败")
         return 

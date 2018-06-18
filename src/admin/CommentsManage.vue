@@ -5,19 +5,19 @@
     style="width:100%">
   <el-table-column label="题目"  prop="issue_id" width="180"></el-table-column>
   <el-table-column label="作者" prop="user_id" width="180"></el-table-column>
-  <el-table-column label="评论内容" prop="comment_content" width="180" v-html="comment_content">
+  <el-table-column label="评论内容" prop="comment_content" width="180" >
     <template slot-scope="scope">
       <p v-html="scope.row.comment_content"></p>
     </template>
   </el-table-column>
-  <el-table-column label="创建时间" prop="created" ></el-table-column>
+  <el-table-column label="创建时间" prop="created"></el-table-column>
   <el-table-column
       fixed="right"
       label="操作"
       width="200">
       <template slot-scope="scope">
         <!-- <el-button @click="handleReadClick(scope.row)" type="text" size="small">查看</el-button> -->
-        <el-button type="text" @click="handleEditClick(scope.row)" size="small">编辑</el-button>
+        <!-- <el-button type="text" @click="handleEditClick(scope.row)" size="small">编辑</el-button> -->
         <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
       </template>
     </el-table-column>
@@ -35,10 +35,8 @@ export default {
   computed: {
     ...mapGetters({
       // items: "getItems",
-      loginStatus: "getUserLoginStatus",
       commentitems: "getcommentItems",
-      issuestatus: "getissuestatus",
-      uinfo: "getUserInfo",
+      issuestatus: "getcommentstatus",
     })
   },
   methods: {
@@ -54,24 +52,18 @@ export default {
       // this.$router.push("/issueupdate/"+row.issue_id)
     },
     handleDelClick(row) {
-      console.log(row.issue_id)
-    //    var item = { issue_id: row.issue_id };
-    //   this.$store.dispatch("deleteIssueById",item)
-    //    setTimeout(() => {
-    //     if (this.issuestatus) {
-    //       location.reload()
-    //       return;
-    //     }
-    //   }, 1000);
+       var item = { comment_id: row.comment_id };
+      this.$store.dispatch("deletecomment",item)
+       setTimeout(() => {
+        if (this.issuestatus) {
+          location.reload()
+          return;
+        }
+      }, 1000);
     }
   },
   created() {
-    if (localStorage.getItem("uinfo")) {
-      this.$store.commit("setUserLoginStatus", true);
-    }
-    // this.$store.dispatch("getAllItems");
-    // this.$store.dispatch("getIssues");
-    this.$store.dispatch("queryallcommentsbyUserid",this.uinfo.id)
+    this.$store.dispatch("queryallcomments")
   }
 };
 </script>

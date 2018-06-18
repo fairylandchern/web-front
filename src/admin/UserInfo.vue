@@ -2,20 +2,9 @@
         <el-container>
         <el-container>
             <el-main>
-                <!-- <el-card class="box-card">
-                    <div slot="header">
-                        <span>用户个人信息</span>
-                    </div>
-                    <div class="userinfo">
-                    <p>用户名:{{uinfo.nickname}}</p>
-                    <p>密码：{{uinfo.password}}</p>
-                    <p>电话:{{uinfo.phone}}</p>
-                    </div>
-                    
-                </el-card> -->
                 <div class="userinfo">
                   <a class="person_add_focus">
-                    <i class="el-icon-edit">修改信息</i>
+                    <i class="el-icon-plus">关注</i>
                   </a>
                   <dl class="person_photo">
                     <dt>
@@ -64,16 +53,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uinfo: "getadminInfo",
+      uinfo: "getuserdetail",
+      loginStatus: "getUserLoginStatus"
     })
   },
   methods: {
     ...mapActions({
       logout: "logout"
-    })
+    }),
+    getdata() {
+      let issue_id = this.$route.params.id;
+      console.log("id is", issue_id);
+      return issue_id;
+    },
   },
   created() {
-   
+    var issue_id = this.getdata();
+    console.log(issue_id)
+    issue_id = parseInt(issue_id);
+    var item = { id: issue_id };
+    this.$store.dispatch("getuser",item)
   }
 };
 </script>

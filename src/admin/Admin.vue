@@ -1,11 +1,11 @@
 <template>
 <el-container >
   <el-container class="admin-page">
-    <el-aside >
+    <el-aside  background-color="#545c64">
     <el-row>
       <el-col>
     <el-menu
-      default-active="2"
+      default-active="1"
       class="el-menu-vertical-demo"
       background-color="#545c64"
       text-color="#fff"
@@ -16,6 +16,7 @@
      <!-- <el-menu-item route="/admin/main/typemanage">类型管理</el-menu-item> -->
      <el-menu-item index="3" route="/admin/main/usermanage">用户管理</el-menu-item>
      <el-menu-item index="4" route="/admin/main/admininfo">个人信息管理</el-menu-item>
+     <el-menu-item index="5" route="/admin/login" @click="logout">注销</el-menu-item>
     </el-menu>
   </el-col>
 </el-row>
@@ -47,7 +48,11 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
-
+  methods:{
+     ...mapActions({
+      logout:"adminlogout",
+    }),
+  }
 };
 </script>
 <style>
@@ -59,7 +64,7 @@ export default {
 }
 
 .el-aside {
-  background-color: #d3dce6;
+  background-color: #545c64;
   color: #333;
   text-align: center;
   line-height: 200px;

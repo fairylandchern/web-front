@@ -12,7 +12,7 @@
       width="200">
       <template slot-scope="scope">
         <el-button @click="handleReadClick(scope.row)" type="text" size="small">查看</el-button>
-        <el-button type="text" @click="handleEditClick(scope.row)" size="small">编辑</el-button>
+        <!-- <el-button type="text" @click="handleEditClick(scope.row)" size="small">编辑</el-button> -->
         <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
       </template>
     </el-table-column>
@@ -25,8 +25,8 @@ export default {
   computed: {
     ...mapGetters({
       // items: "getItems",
-      loginStatus: "getUserLoginStatus",
-      issueitems: "getUserIssues",
+      // loginStatus: "getUserLoginStatus",
+      issueitems: "getissues",
       issuestatus: "getissuestatus",
     })
   },
@@ -36,12 +36,12 @@ export default {
     }),
     handleReadClick(row) {
       console.log(row.issue_id);
-      this.$router.push("/issuedetail/" + row.issue_id);
+      this.$router.push("/admin/main/issuedetail/" + row.issue_id);
     },
-    handleEditClick(row) {
-      console.log(row.issue_id)
-      this.$router.push("/issueupdate/"+row.issue_id)
-    },
+    // handleEditClick(row) {
+    //   console.log(row.issue_id)
+    //   this.$router.push("/issueupdate/"+row.issue_id)
+    // },
     handleDelClick(row) {
       console.log(row.issue_id)
        var item = { issue_id: row.issue_id };

@@ -16,6 +16,8 @@ import IssueManage from "@/admin/Issuemanage"
 import TypeManage from "@/admin/TypeManage"
 import UserManage from "@/admin/Usermanage"
 import AdminInfo from "@/admin/AdminInfo"
+import AdminIssueDetail from "@/admin/AdminIssueDetail"
+import Admin_UserInfo from "@/admin/UserInfo"
 Vue.use(Router)
 
 
@@ -81,12 +83,15 @@ Vue.use(Router)
       path:"/admin/main",
       name:"Admin",
       component:Admin,
+      beforeEnter:requireAdminAuth,
       children:[
         {path:"commentsmanage",component:CommentsManage},
         {path:"issuemanage",component:IssueManage},
         {path:"typemanage",component:TypeManage},
         {path:"usermanage",component:UserManage},
         {path:"admininfo",component:AdminInfo},
+        {path:"issuedetail/:id",component:AdminIssueDetail},
+        {path:"userinfo/:id",component:Admin_UserInfo},
       ]
     },
   ]
@@ -95,11 +100,19 @@ Vue.use(Router)
 // router.beforeEach((to,from,next)=>{
 //   next('/login')
 // })
-function requireAuth(next) {
+function requireAuth(to, from, next) {
   if(localStorage.getItem("uinfo")){
     next()
   }else{
     next('/login')
+  }
+ 
+}
+function requireAdminAuth(to, from, next) {
+  if(localStorage.getItem("admininfo")){
+    next()
+  }else{
+    next('/admin/login')
   }
  
 }
