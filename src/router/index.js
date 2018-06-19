@@ -18,6 +18,7 @@ import UserManage from "@/admin/Usermanage"
 import AdminInfo from "@/admin/AdminInfo"
 import AdminIssueDetail from "@/admin/AdminIssueDetail"
 import Admin_UserInfo from "@/admin/UserInfo"
+import OtherUserInfo from "@/components/OthUserInfo"
 Vue.use(Router)
 
 
@@ -56,6 +57,11 @@ Vue.use(Router)
       name:"UserInfo",
       component:UserInfo,
       beforeEnter:requireAuth
+    },
+    {
+      path:"/otheruserinfo/:id",
+      name:"OtherUserInfo",
+      component:OtherUserInfo,
     },
     {
       path:"/allissues",

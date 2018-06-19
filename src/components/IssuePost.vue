@@ -151,7 +151,7 @@ export default {
   background-color: #d3dce6;
   color: #333;
   text-align: center;
-  line-height: 20px;
+  line-height:60px;
 }
 
 .el-main {
@@ -160,4 +160,20 @@ export default {
   text-align: center;
   line-height: 20px;
 }
+ header.el-header{
+   padding: 0;
+ }
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
+li.el-menu-item.userinfo{
+   float: right;
+ }
+ li.userinfo.el-submenu{
+   float: right;
+ }
 </style>

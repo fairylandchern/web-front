@@ -148,6 +148,13 @@ export default {
  li.userinfo.el-submenu{
    float: right;
  }
+ .el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
 </style>
 
 

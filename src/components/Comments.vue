@@ -59,8 +59,8 @@
       width="200">
       <template slot-scope="scope">
         <!-- <el-button @click="handleReadClick(scope.row)" type="text" size="small">查看</el-button> -->
-        <el-button type="text" @click="handleEditClick(scope.row)" size="small">编辑</el-button>
-        <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
+        <el-button type="text" @click="handleEditClick(scope.row)" size="small" class="el-icon-edit">编辑</el-button>
+        <el-button type="text" @click="handleDelClick(scope.row)" size="small" class="el-icon-delete">删除</el-button>
       </template>
     </el-table-column>
 </el-table>
@@ -124,6 +124,16 @@ li.el-menu-item.userinfo{
  li.userinfo.el-submenu{
    float: right;
  }
+  header.el-header{
+   padding: 0;
+ }
+ .el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
 </style>
 
 

@@ -106,19 +106,26 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uinfo: "getUserInfo",
+      uinfo: "getuserdetail",
       loginStatus: "getUserLoginStatus"
     })
   },
   methods: {
     ...mapActions({
       logout: "logout"
-    })
+    }),
+    getdata() {
+      let issue_id = this.$route.params.id;
+      console.log("id is", issue_id);
+      return issue_id;
+    },
   },
   created() {
-    if (localStorage.getItem("uinfo")) {
-      this.$store.commit("setUserLoginStatus", true);
-    }
+    var issue_id = this.getdata();
+    console.log(issue_id)
+    issue_id = parseInt(issue_id);
+    var item = { id: issue_id };
+    this.$store.dispatch("getuser",item)
   }
 };
 </script>
@@ -140,10 +147,13 @@ export default {
  header.el-header{
    padding: 0;
  }
- .el-footer{
-   padding:0;
-   background-color: #fff;
- }
+ .el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
  .person_add_focus{
    display: block;
     height: 22px;

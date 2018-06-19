@@ -140,10 +140,13 @@ export default {
  header.el-header{
    padding: 0;
  }
- .el-footer{
-   padding:0;
-   background-color: #fff;
- }
+ .el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
+}
+
  .person_add_focus{
    display: block;
     height: 22px;

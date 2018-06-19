@@ -56,7 +56,9 @@
     <table class="comment_content" >
              <tbody>
             <tr>
-               <td class="show_items_detail" >楼主：{{item.user_id}}</td>
+               <td class="show_items_detail">
+              <el-button @click="toUser(item.user_id)" type="text" size="small"> 楼主：{{item.user_id}}</el-button>
+                </td>
                <td><p v-html="item.issue_content"></p></td>
              </tr>
              <tr>
@@ -73,7 +75,10 @@
            <table class="comment_content" v-for="(comment,index) in comments" :key="index">
              <tbody>
             <tr>
-               <td class="show_items_detail">用户：{{comment.user_id}}</td>
+               <td class="show_items_detail" >
+              <el-button @click="toUser(comment.user_id)" type="text" size="small"> 用户：{{comment.user_id}}
+              </el-button>
+                 </td>
                <td><p v-html="comment.comment_content"></p></td>
              </tr>
             <tr>
@@ -126,7 +131,7 @@ export default {
       loginStatus: "getUserLoginStatus",
       uinfo: "getUserInfo",
       comment_status: "getcommentstatus",
-      comments:"getcommentItems",
+      comments: "getcommentItems"
     })
   },
   methods: {
@@ -143,10 +148,28 @@ export default {
       this.$store.dispatch("createComment", form);
       setTimeout(() => {
         if (this.comment_status) {
-          location.reload()
+          location.reload();
           return;
         }
       }, 1000);
+    },
+    toUser(id) {
+      //   {
+      //   path:"/userinfo",
+      //   name:"UserInfo",
+      //   component:UserInfo,
+      //   beforeEnter:requireAuth
+      // },
+      // {
+      //   path:"/otheruserinfo/:id",
+      //   name:"OtherUserInfo",
+      //   component:OtherUserInfo,
+      // },
+      if (id ===this.uinfo.id) {
+        this.$router.push("/userinfo");
+        return;
+      }
+      this.$router.push("/otheruserinfo/" + id);
     },
     ...mapActions({
       logout: "logout"
@@ -160,7 +183,7 @@ export default {
     issue_id = parseInt(issue_id);
     var item = { issue_id: issue_id };
     this.$store.dispatch("getIssueByIssueId", item);
-    this.$store.dispatch("queryallcommentsbyid",issue_id)
+    this.$store.dispatch("queryallcommentsbyid", issue_id);
   },
   mounted() {},
   watch: {
@@ -171,78 +194,87 @@ export default {
 };
 </script>
 <style>
-.issue{
+.issue {
   border: 1px solid royalblue;
   background-color: blanchedalmond;
 }
 .box-card {
-    width: 80%;
-    margin-left:auto;
-    margin-right:auto;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.title{
+.title {
   font: outline;
   font-size: 20px;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
-.comment{
+.comment {
   background-clip: border-box;
   background-size: 80%;
-  background-color:ghostwhite;
+  background-color: ghostwhite;
 }
-.comment-div{
+.comment-div {
   size: 80%;
   border: 1px cornflowerblue solid;
   background-color: antiquewhite;
 }
-.el-aside{
+.el-aside {
   /* float: left; */
   padding-left: 15px;
   border-right: 1px solid #dddddd;
 }
- li.el-menu-item.userinfo{
-   float: right;
- }
- li.userinfo.el-submenu{
-   float: right;
- }
-.wrapper{
-  width:80%;
+li.el-menu-item.userinfo {
+  float: right;
+}
+li.userinfo.el-submenu {
+  float: right;
+}
+.wrapper {
+  width: 80%;
   align-self: center;
 }
-.issue_title{
-    padding: 10px;
-    background-color: #dcdfe6;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
-    margin: 8px 0;
-    border: 1px solid #ddd;
-}
-.comment_content{
+.issue_title {
+  padding: 10px;
+  background-color: #dcdfe6;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  margin: 8px 0;
   border: 1px solid #ddd;
-    margin: 8px 0;
-    width: 100%;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.05);
-    border-collapse: separate;
-    background-color: #fff;
-    min-height: 40px;
-    border-spacing: 0;
 }
-.show_items_detail{
+.comment_content {
+  border: 1px solid #ddd;
+  margin: 8px 0;
+  width: 100%;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  border-collapse: separate;
+  background-color: #fff;
+  min-height: 40px;
+  border-spacing: 0;
+}
+.show_items_detail {
   border-right: 1px solid rgb(221, 221, 221);
-    background: rgb(239, 244, 251);
-    vertical-align: top;
-    width: 110px;
-    margin: 0px;
-    padding: 0px;
+  background: rgb(239, 244, 251);
+  vertical-align: top;
+  width: 110px;
+  margin: 0px;
+  padding: 0px;
 }
-.td_time{
+.td_time {
   border-top: 1px solid #dcdfe6;
 }
-.time{
-  float:left;
+.time {
+  float: left;
   font-style: oblique;
   font-family: monospace;
+}
+header.el-header {
+  padding: 0;
+}
+.el-footer {
+  background-color: #b3c0d1;
+  color: #333;
+  text-align: center;
+  line-height: 60px;
 }
 </style>
 
